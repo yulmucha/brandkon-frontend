@@ -4,6 +4,12 @@ export interface ICategory {
   categoryName: string;
 }
 
+export interface IBrand {
+  brandId: number;
+  imageUrl: string;
+  brandName: string;
+}
+
 export interface IProduct {
   productId: number;
   imageUrl: string;

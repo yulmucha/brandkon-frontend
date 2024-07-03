@@ -1,4 +1,4 @@
-import { ICategory, IProduct, getData } from "@/api";
+import { IBrand, ICategory, IProduct, getData } from "@/api";
 import Category from "@/components/category";
 
 export default async function CategoryPage({
@@ -17,13 +17,17 @@ export default async function CategoryPage({
       break;
     }
     popularProducts.push(
-      <a href={`/products/${products[i].productId}`}>
+      <a href={`/products/${products[i].productId}`} key={i}>
         <div>{popularProducts.length + 1}위</div>
         <div>{`${products[i].brandName} | ${products[i].productName}`}</div>
         <div>{products[i].price.toLocaleString()}원</div>
       </a>
     );
   }
+
+  const brands = await getData<IBrand[]>(
+    `/brands?categoryId=${params.categoryId}`
+  );
 
   return (
     <div>
@@ -72,6 +76,16 @@ export default async function CategoryPage({
         ))}
       </div>
       <div>{popularProducts}</div>
+      <div>
+        <div className="font-semibold">브랜드</div>
+        <div>
+          {brands.map((b, index) => (
+            <a href={`/brands/${b.brandId}`} key={index}>
+              <div>{b.brandName}</div>
+            </a>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
