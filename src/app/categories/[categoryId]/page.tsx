@@ -1,4 +1,4 @@
-import { ICategory, getData } from "@/api";
+import { ICategory, IProduct, getData } from "@/api";
 import Category from "@/components/category";
 
 export default async function CategoryPage({
@@ -7,6 +7,24 @@ export default async function CategoryPage({
   params: { categoryId: string };
 }) {
   const categories = await getData<ICategory[]>(`/categories`);
+
+  const products = await getData<IProduct[]>(
+    `/products?categoryId=${params.categoryId}`
+  );
+  const popularProducts = [];
+  for (let i = 0; i < products.length; i++) {
+    if (popularProducts.length >= 3) {
+      break;
+    }
+    popularProducts.push(
+      <a href={`/products/${products[i].productId}`}>
+        <div>{popularProducts.length + 1}위</div>
+        <div>{`${products[i].brandName} | ${products[i].productName}`}</div>
+        <div>{products[i].price.toLocaleString()}원</div>
+      </a>
+    );
+  }
+
   return (
     <div>
       <div>카테고리 ID: {params.categoryId}</div>
@@ -53,6 +71,7 @@ export default async function CategoryPage({
           />
         ))}
       </div>
+      <div>{popularProducts}</div>
     </div>
   );
 }
