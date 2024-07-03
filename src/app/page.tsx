@@ -2,7 +2,24 @@ import Category from "@/components/category";
 import Header from "@/components/header";
 import Product from "@/components/product";
 
+async function getData(path: string) {
+  const host = "http://localhost:8080";
+  const response = await fetch(`${host}${path}`);
+  if (!response.ok) {
+    throw new Error();
+  }
+
+  return response.json();
+}
+
 export default async function Home() {
+  // const [categories, products] = await Promise.all([
+  //   getData("/categories"),
+  //   getData("/products"),
+  // ]);
+  const categories = await getData("/categories");
+  const products = await getData("/products?sort=POPULAR");
+
   return (
     <div className="h-full w-full flex flex-col relative overflow-hidden">
       <Header hasBack={false}>구매하기</Header>
