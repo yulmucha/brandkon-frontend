@@ -1,3 +1,4 @@
+import { getData } from "@/api";
 import Category from "@/components/category";
 import Header from "@/components/header";
 import Product from "@/components/product";
@@ -16,23 +17,13 @@ interface IProduct {
   brandName: string;
 }
 
-async function getData(path: string) {
-  const host = "http://localhost:8080";
-  const response = await fetch(`${host}${path}`);
-  if (!response.ok) {
-    throw new Error();
-  }
-
-  return response.json();
-}
-
 export default async function Home() {
   // const [categories, products] = await Promise.all([
   //   getData("/categories"),
   //   getData("/products"),
   // ]);
-  const categories: ICategory[] = await getData("/categories");
-  const products: IProduct[] = await getData("/products?sort=POPULAR");
+  const categories = await getData<ICategory[]>("/categories");
+  const products = await getData<IProduct[]>("/products?sort=POPULAR");
 
   return (
     <div className="h-full w-full flex flex-col relative overflow-hidden">
