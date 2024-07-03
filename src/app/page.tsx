@@ -1,21 +1,7 @@
-import { getData } from "@/api";
+import { ICategory, IProduct, getData } from "@/api";
 import Category from "@/components/category";
 import Header from "@/components/header";
 import Product from "@/components/product";
-
-interface ICategory {
-  categoryId: number;
-  imageUrl: string;
-  categoryName: string;
-}
-
-interface IProduct {
-  productId: number;
-  imageUrl: string;
-  price: number;
-  productName: string;
-  brandName: string;
-}
 
 export default async function Home() {
   // const [categories, products] = await Promise.all([
