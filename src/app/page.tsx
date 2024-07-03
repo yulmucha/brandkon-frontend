@@ -2,6 +2,20 @@ import Category from "@/components/category";
 import Header from "@/components/header";
 import Product from "@/components/product";
 
+interface ICategory {
+  categoryId: number;
+  imageUrl: string;
+  categoryName: string;
+}
+
+interface IProduct {
+  productId: number;
+  imageUrl: string;
+  price: number;
+  productName: string;
+  brandName: string;
+}
+
 async function getData(path: string) {
   const host = "http://localhost:8080";
   const response = await fetch(`${host}${path}`);
@@ -17,8 +31,8 @@ export default async function Home() {
   //   getData("/categories"),
   //   getData("/products"),
   // ]);
-  const categories = await getData("/categories");
-  const products = await getData("/products?sort=POPULAR");
+  const categories: ICategory[] = await getData("/categories");
+  const products: IProduct[] = await getData("/products?sort=POPULAR");
 
   return (
     <div className="h-full w-full flex flex-col relative overflow-hidden">
